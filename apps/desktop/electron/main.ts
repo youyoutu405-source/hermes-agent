@@ -254,7 +254,12 @@ import {
   tightenSecretFileMode,
   writeSecretFileAtomic
 } from './hardening'
-import { type AttachedBackend, attachOrReserveSpawn, spawnLedgerPath, type SpawnReservation } from './host-backend-attach'
+import {
+  type AttachedBackend,
+  attachOrReserveSpawn,
+  spawnLedgerPath,
+  type SpawnReservation
+} from './host-backend-attach'
 import { requestHudClose } from './hud-close'
 import { cursorPointInWindow } from './hud-cursor'
 import { startHudGameOverlayWatch } from './hud-game-overlay'
