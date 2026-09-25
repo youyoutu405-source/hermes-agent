@@ -587,17 +587,24 @@ test('open() records what the failed ssh did in the desktop log (#80836)', async
     await assert.rejects(conn.open())
     fs.rmSync(controlDir, { recursive: true, force: true })
     assert.ok(
-      logs.some(line => /connect to me@box:22 failed \(kind=unknown, exit=null, signal=SIGTERM\): \(empty\)/.test(line)),
+      logs.some(line =>
+        /connect to me@box:22 failed \(kind=unknown, exit=null, signal=SIGTERM\): \(empty\)/.test(line)
+      ),
       `mux=${mux}: ${logs.join(' | ')}`
     )
   }
 
   const logs: string[] = []
   const spawnFn = scriptedSpawn([{ code: 255, stderr: 'me@box: Permission denied (publickey).' }])
-  const conn = new SshConnection({ host: 'box', user: 'me' }, { spawnFn, mux: false, rememberLog: line => logs.push(line) })
+  const conn = new SshConnection(
+    { host: 'box', user: 'me' },
+    { spawnFn, mux: false, rememberLog: line => logs.push(line) }
+  )
 
   await assert.rejects(conn.open())
-  assert.ok(logs.some(line => /failed \(kind=auth-failed, exit=255, signal=none\): me@box: Permission denied/.test(line)))
+  assert.ok(
+    logs.some(line => /failed \(kind=auth-failed, exit=255, signal=none\): me@box: Permission denied/.test(line))
+  )
 })
 
 test('runSsh keeps Node close signal on the result', async () => {
